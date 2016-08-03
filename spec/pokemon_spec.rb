@@ -24,7 +24,7 @@ describe "Pokemon" do
       new_pokemon = Pokemon.save("Pikachu", "fire", @db)
 
       pikachu_from_db = @db.execute("SELECT * FROM pokemon WHERE name = 'Pikachu'")
-      expect(pikachu_from_db).to eq([[1, "Pikachu", "fire"]])
+      expect(pikachu_from_db).to eq([[1, "Pikachu", "fire", 60]])
     end
   end
 
@@ -33,7 +33,16 @@ describe "Pokemon" do
       newer_pokemon = Pokemon.save("Pikachu", "fire", @db)
 
       pikachu_from_db = Pokemon.find(1, @db)
-      expect(pikachu_from_db).to eq([[1, "Pikachu", "fire"]])
+      expect(pikachu_from_db).to eq([[1, "Pikachu", "fire", 60]])
+    end
+  end
+
+  describe ".alter_hp" do
+    it 'alters the hp of a pokemon from the database' do
+      newest_pokemon = Pokemon.save("Pikachu", "fire", @db)
+
+      pikachu_from_db = Pokemon.alter_hp(1, 40, @db)
+      expect(pikachu_from_db).to eq([[1, "Pikachu", "fire", 40]])
     end
   end
 
